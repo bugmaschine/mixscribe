@@ -28,10 +28,9 @@ jobs:
           mkdir -p bundle
           cp -r bin/* bundle/
           cp -r templates bundle/
-          zip -r bundle.zip bundle/
 
       - name: Upload bundle
         uses: actions/upload-artifact@v3
         with:
           name: bundle
-          path: bundle.zip
+          path: bundle/
