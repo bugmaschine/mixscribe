@@ -21,6 +21,9 @@ jobs:
       with:
         go-version: '1.23'
 
+    - name: Install fftw3
+      run: sudo apt-get install -y fftw3
+
     - name: Build
       run: go build -v ./...
 
