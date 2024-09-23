@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"log"
 )
 
@@ -20,7 +19,7 @@ func compareFingerprint(fp1, fp2 []int32) float64 {
 }
 
 func calculateFingerprint(data []byte, targetSampleRate int, ComparisonSnippetTime int) []int32 {
-	return 0
+	return nil
 	//reader := bytes.NewReader(data)
 	//fpcalc := chromaprint.New(chromaprint.AlgorithmDefault)
 	//defer fpcalc.Close()
@@ -31,6 +30,6 @@ func calculateFingerprint(data []byte, targetSampleRate int, ComparisonSnippetTi
 	//		Rate:       uint(targetSampleRate),
 	//		MaxSeconds: uint(ComparisonSnippetTime),
 	//	})
-//
+	//
 	//return fprint1
 }
