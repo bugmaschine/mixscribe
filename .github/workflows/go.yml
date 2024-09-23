@@ -4,30 +4,31 @@
 name: Go
 
 on:
-  - push
-  - pull_request
+  push:
+  pull_request:
 
 jobs:
-
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Set up Go
-      uses: actions/setup-go@v4
-      with:
-        go-version: '1.23'
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.23'
 
-    - name: Build
-      run: go build -v ./...
+      - name: Build
+        run: |
+          mkdir -p bin
+          go build -v -o bin/ .
 
-    - name: Test
-      run: go test -v ./...
+      - name: Test
+        run: go test -v ./...
 
-    - name: Bundle
-      run: |
-        mkdir -p bin
-        cp $(go list -f '{{.Target}}' ./...) bin/
-        zip -r bundle.zip bin templates
-
+      - name: Bundle
+        run: |
+          mkdir -p bundle
+          cp -r bin/* bundle/
+          cp -r templates bundle/
+          zip -r bundle.zip bundle/
