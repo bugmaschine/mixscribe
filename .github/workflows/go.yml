@@ -24,3 +24,10 @@ jobs:
 
     - name: Test
       run: go test -v ./...
+
+    - name: Bundle
+      run: |
+        mkdir -p bin
+        cp $(go list -f '{{.Target}}' ./...) bin/
+        zip -r bundle.zip bin templates
+
