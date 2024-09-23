@@ -39,7 +39,7 @@ func main() {
 	mw := io.MultiWriter(os.Stdout, logFile)
 	log.SetOutput(mw)
 
-	log.Println("mixscribe | © lowikian@einfachzocken & contributors")
+	log.Println("mixscribe")
 
 	log.Println("Starting Webserver")
 
