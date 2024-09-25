@@ -6,7 +6,7 @@ PS: please don't sue me ard, and yes i know the code is shit.
 
 # Instalation
 
-We recommend installing mixscribe on a VPS with some memory to spare (swap should work), a good uptime and internet connection. Theoreticly you can run Jump Record on a home internet connection, but if you have the telekom as your provider then we don't recommend you try to even think about it.
+We recommend installing mixscribe on a VPS with some memory to spare (swap should work), a good uptime and internet connection. Theoreticly you can run mixscribe on a home internet connection, but if you have the telekom as your provider then we don't recommend you try to even think about it.
 
 TODO: Add instalation instructions or add a docker container
 
