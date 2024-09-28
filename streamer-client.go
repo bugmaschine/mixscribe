@@ -20,7 +20,13 @@ const (
 func StartRecording() {
 	for <-ControlRecording {
 		currentTime := time.Now().Format("2006-01-02_15:04:05")
-
+		//check if recording dir exists and if not create it
+		if _, err := os.Stat(recordingDir); os.IsNotExist(err) {
+			err = os.MkdirAll(recordingDir, 0755)
+			if err != nil {
+				log.Fatalf("Error creating recording directory (check permissions): %v", err)
+			}
+		}
 		filename := filePrefix + currentTime + fileExtension
 		CurrentRecordingFilename = filename
 		filename = recordingDir + filename
