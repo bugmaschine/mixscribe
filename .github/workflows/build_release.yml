@@ -1,0 +1,52 @@
+name: Create Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  create_release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.23'
+
+      # Build steps
+      - name: Build
+        run: |
+          mkdir -p bin
+          go build -v -o bin/ .
+
+      - name: Test
+        run: go test -v ./...
+
+      - name: Bundle
+        run: |
+          mkdir -p bundle
+          cp -r bin/* bundle/
+          cp -r templates bundle/
+
+      # Generate release notes
+      - name: Generate Release Notes
+        id: release_notes
+        run: |
+          echo "Changes in this release:" > release_notes.txt
+          git log --oneline $(git describe --tags --abbrev=0 @^)..@ >> release_notes.txt
+
+      # Zip the bundle
+      - name: Zip Bundle
+        run: |
+          zip -r bundle.zip bundle/
+
+      # Create and upload release using softprops/action-gh-release
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: bundle.zip
+          body_path: release_notes.txt

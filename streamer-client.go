@@ -20,7 +20,13 @@ const (
 func StartRecording() {
 	for <-ControlRecording {
 		currentTime := time.Now().Format("2006-01-02_15:04:05")
-
+		//check if recording dir exists and if not create it
+		if _, err := os.Stat(recordingDir); os.IsNotExist(err) {
+			err = os.MkdirAll(recordingDir, 0755)
+			if err != nil {
+				log.Fatalf("Error creating recording directory (check permissions): %v", err)
+			}
+		}
 		filename := filePrefix + currentTime + fileExtension
 		CurrentRecordingFilename = filename
 		filename = recordingDir + filename
@@ -98,7 +104,7 @@ func streamDownloadAndCompare(url, filePath string) error {
 	rollingSeconds := make([]byte, 0, 20*1024*1024) // 20MB buffer for rolling seconds
 	finishedSnippetRecording := false
 	rollingSecondsFull := false
-	var initialFingerprint []int32
+	var initialFingerprint [][]float64
 
 	for IsRecording {
 		n, err := resp.Body.Read(currentChunk)
@@ -119,7 +125,10 @@ func streamDownloadAndCompare(url, filePath string) error {
 				finishedSnippetRecording = true
 				log.Println("Finished recording comparison segment!")
 				// calculate fingerprint only once to save performance
-				initialFingerprint = calculateFingerprint(initialSegment, targetSampleRate, int(ComparisonSnippetTime.Seconds()))
+				initialFingerprint, err = calculateFingerprint(initialSegment, targetSampleRate, int(ComparisonSnippetTime.Seconds()))
+				if err != nil {
+					panic(err)
+				}
 			}
 		} else {
 			rollingSeconds = append(rollingSeconds, currentChunk[:n]...)
@@ -132,7 +141,10 @@ func streamDownloadAndCompare(url, filePath string) error {
 				rollingSecondsFull = false
 			}
 			if rollingSecondsFull {
-				rollingSecondsFP := calculateFingerprint(rollingSeconds, targetSampleRate, int(ComparisonSnippetTime.Seconds()))
+				rollingSecondsFP, err := calculateFingerprint(rollingSeconds, targetSampleRate, int(ComparisonSnippetTime.Seconds()))
+				if err != nil {
+					panic(err)
+				}
 
 				if compareSongs(initialFingerprint, rollingSecondsFP, SimilarityThreshold) { // Seems to be slow // maybe somehow make it multi threaded
 					log.Printf("\nSimilar Segment found, stopping recording!")
