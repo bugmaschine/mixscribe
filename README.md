@@ -23,7 +23,7 @@ TODO: Add requirements.
 
 # Developers
 
-Run the program with `go run main.go`
+Run the program with `go run .`
 
 # Current State
 
