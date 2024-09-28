@@ -8,6 +8,7 @@ import (
 	"log"
 	"math"
 	"math/cmplx"
+	"strconv"
 
 	mp3 "github.com/tcolgate/mp3"
 )
@@ -28,10 +29,10 @@ func compareSongs(initialFingerprint, rollingSeconds [][]float64, SimilarityThre
 func compareFingerprint(fp1, fp2 [][]float64) float64 {
 
 	if len(fp1) != len(fp2) || len(fp1[0]) != len(fp2[0]) {
-		log.Println("fp1" + string(len(fp1)))
-		log.Println("fp2" + string(len(fp2)))
-		log.Println("fp1 0" + string(len(fp1[0])))
-		log.Println("fp2 0" + string(len(fp2[0])))
+		log.Println("fp1" + strconv.Itoa(len(fp1)))
+		log.Println("fp2" + strconv.Itoa(len(fp2)))
+		log.Println("fp1 0" + strconv.Itoa(len(fp1[0])))
+		log.Println("fp2 0" + strconv.Itoa(len(fp2[0])))
 		panic("Fingerprints have different dimensions")
 	}
 
