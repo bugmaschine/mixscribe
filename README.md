@@ -2,7 +2,7 @@
 
 mixscribe is like an radio recorder and it checks for looping parts. It works by recording and then checking if it's starts overlaping with a previous part of the already saved audio. If it does it than saves the file and wait's until the a different mix is played.
 
-PS: please don't sue me ard, and yes i know the code is shit.
+PS: please don't sue me ard, and yes i know the code is bad.
 
 # Instalation
 
